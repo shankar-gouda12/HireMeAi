@@ -379,7 +379,7 @@ def get_parsed_resume():
     if PARSED_RESUME_CACHE is not None:
         return PARSED_RESUME_CACHE
 
-    resume_path = Path("Shankar_CV.pdf")
+    resume_path = BASE_DIR / "Shankar_CV.pdf"
     if not resume_path.exists():
         raise FileNotFoundError("PDF file not found")
 
