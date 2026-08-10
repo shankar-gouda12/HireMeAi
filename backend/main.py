@@ -828,22 +828,27 @@ def chat(request: ChatRequest):
     try:
         parsed_resume = get_parsed_resume()
     except FileNotFoundError:
-        return {"error": "PDF file not found"}
+        return JSONResponse(status_code=404, content={"error": "PDF file not found"})
 
     try:
         answer = ask_candidate(
             request.question,
             parsed_resume
         )
+        return {"answer": answer}
     except groq.RateLimitError as exc:
         return JSONResponse(
-            status_code=503,
+            status_code=429,
             content={
                 "error": "Rate limit reached. Please try again later.",
                 "details": str(exc)
             }
         )
-
-    return {
-        "answer": answer
-    }
+    except Exception as exc:
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": "Unexpected backend error.",
+                "details": str(exc)
+            }
+        )
