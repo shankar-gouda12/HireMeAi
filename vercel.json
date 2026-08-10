@@ -11,16 +11,14 @@
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/svc/api/:path*",
       "destination": {
-        "type": "service",
         "service": "backend"
       }
     },
     {
       "source": "/(.*)",
       "destination": {
-        "type": "service",
         "service": "frontend"
       }
     }

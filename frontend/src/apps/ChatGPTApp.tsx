@@ -37,9 +37,9 @@ export const ChatGPTApp: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE || '/api'}/chat`,
-        {
+      const API_BASE =
+  (import.meta.env.VITE_API_BASE as string) || '/svc/api';
+      const response = await fetch(`${API_BASE}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

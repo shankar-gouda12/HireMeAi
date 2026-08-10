@@ -10,7 +10,7 @@ type GalleryItem = {
 };
 
 const DEFAULT_IMAGES: GalleryItem[] = [];
-const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/api';
+const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/src/api';
 
 export const GalleryApp: React.FC = () => {
   const [images, setImages] = useState<GalleryItem[]>(DEFAULT_IMAGES);
