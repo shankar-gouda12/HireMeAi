@@ -16,7 +16,7 @@ type ProjectFormState = {
   github: string;
 };
 
-const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/src/api';
+const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/svc/api';
 const EMPTY_FORM: ProjectFormState = { name: '', video: '', github: '' };
 
 export const ProjectsApp: React.FC = () => {
