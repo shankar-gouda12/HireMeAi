@@ -19,8 +19,15 @@ from pypdf import PdfReader
 load_dotenv()
 
 # Groq client
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise RuntimeError(
+        "GROQ_API_KEY is not configured. "
+        "Set GROQ_API_KEY in your Vercel environment variables."
+    )
+
 client = Groq(
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=GROQ_API_KEY
 )
 
 DEFAULT_GROQ_MODEL = "llama-3.3-7b"
@@ -50,6 +57,9 @@ def create_chat_completion(messages, max_tokens=256, response_format=None):
             last_error = exc
             continue
         except groq.RateLimitError as exc:
+            last_error = exc
+            continue
+        except Exception as exc:
             last_error = exc
             continue
     raise last_error if last_error is not None else RuntimeError("No available model for completion")
@@ -819,6 +829,16 @@ def root():
     }
 
 
+@app.get("/debug/env")
+def debug_env():
+    return {
+        "groq_api_key_set": bool(os.getenv("GROQ_API_KEY")),
+        "groq_model": os.getenv("GROQ_MODEL"),
+        "available_models": FALLBACK_GROQ_MODELS,
+        "root_path": app.root_path,
+    }
+
+
 # -----------------------------
 # Chat Endpoint
 # -----------------------------
@@ -841,6 +861,14 @@ def chat(request: ChatRequest):
             status_code=429,
             content={
                 "error": "Rate limit reached. Please try again later.",
+                "details": str(exc)
+            }
+        )
+    except groq.GroqError as exc:
+        return JSONResponse(
+            status_code=502,
+            content={
+                "error": "Groq API error.",
                 "details": str(exc)
             }
         )
