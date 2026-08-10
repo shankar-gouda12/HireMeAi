@@ -1,0 +1,108 @@
+.window-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 120px);
+  transition: box-shadow 0.2s ease;
+}
+
+.window-container:not(.mobile-fullscreen) {
+  position: fixed;
+  top: calc(50vh + 12px);
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+
+.window-container.mobile-fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important; /* Override framer-motion transform */
+  border-radius: 0;
+}
+
+.window-container.maximized {
+  top: 24px !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 72px !important; /* keep maximized windows above the taskbar */
+  width: auto !important;
+  height: auto !important;
+  max-width: none;
+  max-height: none;
+  transform: none !important;
+}
+
+.window-container.focused {
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4);
+}
+
+.titlebar {
+  display: flex;
+  flex: 0 0 36px;
+  min-height: 36px;
+  justify-content: space-between;
+  align-items: center;
+  height: 36px;
+  background: var(--titlebar-bg);
+  user-select: none;
+  cursor: default; /* Let framer motion handle the drag cursor */
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.titlebar-spacer {
+  width: 80px;
+}
+
+.titlebar-left {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  gap: 8px;
+  padding-left: 12px;
+}
+
+.mac-btn {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.mac-btn.close { background: #ff5f56; }
+.mac-btn.minimize { background: #ffbd2e; }
+.mac-btn.maximize { background: #27c93f; }
+
+.titlebar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.titlebar-icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.titlebar-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.window-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+  background: var(--window-bg);
+}

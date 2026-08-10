@@ -1,0 +1,257 @@
+.gallery-container {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.gallery-header {
+  margin-bottom: 16px;
+}
+
+.gallery-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.gallery-header p {
+  color: var(--text-secondary);
+}
+
+.gallery-uploader {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.owner-banner {
+  padding: 8px 12px;
+  background: rgba(16,185,129,0.08);
+  color: #10b981;
+  border: 1px solid rgba(16,185,129,0.12);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.gallery-status {
+  margin: 8px 0 12px;
+  padding: 8px 12px;
+  background: rgba(59,130,246,0.06);
+  color: #2563eb;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px dashed rgba(0, 120, 212, 0.4);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0, 120, 212, 0.05);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.upload-box input {
+  display: none;
+}
+
+.preview-container {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(0, 120, 212, 0.2);
+  border-radius: 10px;
+  padding: 14px;
+  background: rgba(255,255,255,0.96);
+}
+
+.cancel-preview-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 0;
+}
+
+.gallery-uploader input {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.gallery-note,
+.gallery-empty {
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(0, 120, 212, 0.06);
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.18));
+  padding: 24px 12px 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gallery-overlay span {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.gallery-overlay small {
+  font-size: 11px;
+  color: rgba(255,255,255,0.86);
+}
+
+.gallery-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  border-radius: 999px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  cursor: pointer;
+}
+
+.gallery-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.gallery-fullscreen-content {
+  position: relative;
+  width: min(1100px, 100%);
+  height: min(90vh, 100%);
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+
+
+.gallery-fullscreen-image {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #000;
+}
+
+.gallery-fullscreen-image img,
+.gallery-fullscreen-image object {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+
+.gallery-fullscreen-meta {
+  padding: 16px;
+  color: white;
+}
+
+.fullscreen-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.gallery-fullscreen-meta h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.fullscreen-close-secondary {
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fullscreen-close-secondary:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.gallery-fullscreen-meta p {
+  margin: 0;
+  color: rgba(255,255,255,0.8);
+}

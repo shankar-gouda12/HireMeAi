@@ -1,0 +1,273 @@
+.explorer-container {
+  display: flex;
+  height: 100%;
+  background: var(--window-bg);
+}
+
+.explorer-sidebar {
+  width: 240px;
+  background: rgba(0,0,0,0.03);
+  border-right: 1px solid var(--window-border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-section h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-section ul {
+  list-style: none;
+}
+
+.sidebar-section li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+.sidebar-section li:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.sidebar-section li.active {
+  background: rgba(0, 120, 212, 0.1);
+}
+
+.owner-card {
+  border: 1px solid rgba(0, 120, 212, 0.18);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255,255,255,0.65);
+}
+
+.owner-card p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.explorer-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.explorer-path {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--window-border);
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.project-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px 0;
+  gap: 12px;
+}
+
+.project-toolbar h3 {
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.project-toolbar p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.tool-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tool-button.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.tool-button.secondary {
+  background: rgba(0,0,0,0.06);
+  color: var(--text-primary);
+}
+
+.login-form,
+.project-form {
+  margin: 12px 16px 0;
+  padding: 12px;
+  border: 1px solid rgba(0, 120, 212, 0.14);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.78);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form input,
+.project-form input,
+.project-form textarea {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+
+.project-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.files-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.1s;
+  text-align: center;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.file-item:hover {
+  background: rgba(0, 120, 212, 0.08);
+}
+
+.file-info {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-info h4 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.file-info p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.file-desc {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.project-links a {
+  font-size: 13px;
+  text-decoration: none;
+  color: #ffffff;
+  background: rgba(0, 120, 212, 0.95);
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.project-links a:hover {
+  background: rgba(0, 120, 212, 1);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .explorer-container {
+    flex-direction: column;
+  }
+
+  .explorer-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--window-border);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .explorer-sidebar {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .owner-card,
+  .login-form,
+  .project-form {
+    background: rgba(255,255,255,0.04);
+  }
+
+  .sidebar-section li:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .file-item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .tool-button.secondary,
+  .icon-button {
+    background: rgba(255,255,255,0.08);
+    color: #f5f5f5;
+  }
+}

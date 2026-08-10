@@ -1,0 +1,95 @@
+.desktop {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(137deg, transparent 0 48%, rgba(86, 241, 255, 0.78) 48.15% 48.34%, transparent 48.5%),
+    linear-gradient(154deg, rgba(79, 191, 255, 0.62) 0%, transparent 27%),
+    linear-gradient(26deg, #0925ad 0%, #111bd5 38%, #02186f 70%, #020838 100%);
+}
+
+.desktop::after {
+  position: absolute;
+  right: -12vw;
+  bottom: -20vh;
+  width: 80vw;
+  height: 75vh;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(145deg, transparent 0 28%, rgba(12, 88, 242, 0.72) 45%, rgba(40, 170, 255, 0.5) 70%, transparent 71%);
+  transform: skewY(-8deg);
+}
+
+.background-text {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 1;
+  max-width: 520px;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  pointer-events: none;
+  text-align: center;
+  text-shadow: 0 3px 14px rgba(0, 0, 50, 0.55);
+}
+
+.bg-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.bg-portfolio {
+  margin-top: 12px;
+  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.windows-container {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  bottom: 120px; /* keep windows clear of the bottom dock/toolbar */
+  left: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.windows-container > * {
+  pointer-events: auto;
+  max-height: calc(100vh - 160px);
+}
+
+@media (max-width: 768px) {
+  .desktop::after {
+    right: -50vw;
+    width: 130vw;
+  }
+
+  .background-text {
+    top: auto;
+    bottom: 105px;
+    left: 50%;
+    max-width: calc(100vw - 48px);
+    transform: translateX(-50%);
+  }
+
+  .bg-name {
+    font-size: 18px;
+  }
+
+  .bg-portfolio {
+    margin-top: 8px;
+    font-size: 46px;
+  }
+}
+
+.windows-container {
+  z-index: 9999 !important;
+}

@@ -1,0 +1,117 @@
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  z-index: 9999;
+  background: var(--taskbar-bg);
+  backdrop-filter: blur(30px);
+  border-top: 1px solid var(--taskbar-border);
+}
+
+.taskbar-left, .taskbar-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.taskbar-left {
+  justify-content: flex-start;
+}
+
+.taskbar-right {
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.taskbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.taskbar-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+
+.taskbar-icon:hover {
+  background: var(--taskbar-hover);
+}
+
+.taskbar-icon.open {
+  background: rgba(255, 255, 255, 0.3);
+}
+.taskbar-icon.focused {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.taskbar-indicator {
+  position: absolute;
+  bottom: 2px;
+  width: 16px;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.2s;
+}
+
+.taskbar-icon.focused .taskbar-indicator {
+  width: 24px;
+}
+
+.start-btn {
+  margin-right: 8px;
+}
+
+.taskbar-weather {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: default;
+}
+.taskbar-weather:hover {
+  background: var(--taskbar-hover);
+}
+
+.system-tray {
+  display: flex;
+  gap: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.system-tray:hover {
+  background: var(--taskbar-hover);
+}
+
+.taskbar-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.taskbar-time:hover {
+  background: var(--taskbar-hover);
+}
