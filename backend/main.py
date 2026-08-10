@@ -29,7 +29,10 @@ FALLBACK_GROQ_MODELS = [DEFAULT_GROQ_MODEL, "llama-3.3-70b-versatile"]
 if user_model and user_model not in FALLBACK_GROQ_MODELS:
     FALLBACK_GROQ_MODELS.append(user_model)
 
-app = FastAPI()
+app = FastAPI(
+    title="HireMe AI Backend",
+    root_path="/svc/api"
+)
 
 def create_chat_completion(messages, max_tokens=256, response_format=None):
     last_error = None
