@@ -149,8 +149,7 @@ async def upload_gallery_item(request: Request, file: UploadFile = File(...), ti
     content = await file.read()
     dest.write_bytes(content)
 
-    origin = request.base_url
-    url = f"{origin}uploads/{filename}"
+    url = f"uploads/{filename}"
 
     items = read_gallery()
     item = {

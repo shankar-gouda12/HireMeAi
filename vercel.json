@@ -17,6 +17,12 @@
       }
     },
     {
+      "source": "/uploads/:path*",
+      "destination": {
+        "service": "backend"
+      }
+    },
+    {
       "source": "/(.*)",
       "destination": {
         "service": "frontend"
