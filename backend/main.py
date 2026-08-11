@@ -30,7 +30,7 @@ client = Groq(
     api_key=GROQ_API_KEY
 )
 
-DEFAULT_GROQ_MODEL = "llama-3.3-7b"
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 user_model = os.getenv("GROQ_MODEL")
 FALLBACK_GROQ_MODELS = [DEFAULT_GROQ_MODEL]
 if user_model and user_model not in FALLBACK_GROQ_MODELS:
