@@ -67,26 +67,43 @@
 }
 
 @media (max-width: 768px) {
+  .desktop {
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
   .desktop::after {
     right: -50vw;
     width: 130vw;
   }
 
   .background-text {
-    top: auto;
-    bottom: 105px;
-    left: 50%;
-    max-width: calc(100vw - 48px);
-    transform: translateX(-50%);
+    display: block;
+    top: 44%;
+    width: calc(100% - 32px);
+  }
+
+  .windows-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .bg-name,
+  .bg-portfolio {
+    font-family: var(--font-family);
   }
 
   .bg-name {
-    font-size: 18px;
+    font-size: clamp(16px, 4.5vw, 20px);
   }
 
   .bg-portfolio {
     margin-top: 8px;
-    font-size: 46px;
+    font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+    font-size: clamp(42px, 14vw, 62px);
   }
 }
 

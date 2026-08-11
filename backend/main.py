@@ -32,7 +32,7 @@ client = Groq(
 
 DEFAULT_GROQ_MODEL = "llama-3.3-7b"
 user_model = os.getenv("GROQ_MODEL")
-FALLBACK_GROQ_MODELS = [DEFAULT_GROQ_MODEL, "llama-3.3-70b-versatile"]
+FALLBACK_GROQ_MODELS = [DEFAULT_GROQ_MODEL]
 if user_model and user_model not in FALLBACK_GROQ_MODELS:
     FALLBACK_GROQ_MODELS.append(user_model)
 

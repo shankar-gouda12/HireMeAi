@@ -21,6 +21,48 @@
   pointer-events: auto;
 }
 
+@media (max-width: 768px) {
+  .dock {
+    width: min(100%, calc(100vw - 24px));
+    margin: 0 auto;
+    padding: 8px;
+    gap: 6px;
+    bottom: 8px;
+  }
+
+  .dock-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .dock-chat-button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dock {
+    width: min(100%, calc(100vw - 24px));
+    margin: 0 auto;
+    padding: 8px;
+    gap: 6px;
+    bottom: 8px;
+  }
+
+  .dock-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .dock-chat-button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
 .dock-item-wrapper {
   display: flex;
   flex-direction: column;

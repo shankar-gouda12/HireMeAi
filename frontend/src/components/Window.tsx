@@ -43,7 +43,7 @@ export const Window: React.FC<WindowProps> = ({
       className={`window-container glass glass-panel ${isFocused ? 'focused' : ''} ${isMobile ? 'mobile-fullscreen' : ''} ${isMaximized ? 'maximized' : ''}`}
       style={!isMobile
         ? { zIndex, width, height }
-        : { zIndex, top: 0 }}
+        : { zIndex, top: 0, left: 0, width: '100%', height: '100%' }}
       onPointerDown={() => onFocus(id)}
     >
       <div className="titlebar">

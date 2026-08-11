@@ -16,10 +16,14 @@
 }
 
 .window-container.mobile-fullscreen {
+  position: fixed;
   width: 100% !important;
-  height: 100% !important;
-  top: 0 !important;
+  /* Keep the system menu and dock reachable on small screens. */
+  height: calc(100dvh - 96px) !important;
+  top: 24px !important;
   left: 0 !important;
+  right: 0 !important;
+  bottom: 72px !important;
   transform: none !important; /* Override framer-motion transform */
   border-radius: 0;
 }
@@ -105,4 +109,19 @@
   overflow: auto;
   position: relative;
   background: var(--window-bg);
+}
+
+@media (max-width: 768px) {
+  .window-container.mobile-fullscreen {
+    max-width: 100%;
+    max-height: none;
+    border-width: 0;
+    border-radius: 0;
+  }
+
+  .titlebar {
+    flex-basis: 40px;
+    min-height: 40px;
+    height: 40px;
+  }
 }

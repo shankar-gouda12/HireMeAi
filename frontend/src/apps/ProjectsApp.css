@@ -237,9 +237,28 @@
 
   .explorer-sidebar {
     width: 100%;
+    padding: 10px 16px;
     border-right: none;
     border-bottom: 1px solid var(--window-border);
   }
+
+  .sidebar-section h3,
+  .owner-card { display: none; }
+
+  .sidebar-section ul { display: flex; gap: 8px; }
+  .sidebar-section li { margin: 0; }
+
+  .project-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 16px 0;
+  }
+
+  .project-toolbar > div:last-child,
+  .project-toolbar .tool-button { width: 100%; }
+
+  .files-grid { grid-template-columns: 1fr; gap: 12px; padding: 12px 16px; }
+  .file-item { padding: 14px; }
 
   .form-row {
     grid-template-columns: 1fr;

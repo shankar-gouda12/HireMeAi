@@ -108,7 +108,9 @@ function App() {
       return prevApps.map(a => 
         a.id === id 
           ? { ...a, isOpen: true, isMinimized: false, isFocused: true, zIndex: maxZIndex + 1 }
-          : { ...a, isFocused: false }
+          : isMobile
+            ? { ...a, isOpen: false, isMinimized: true, isFocused: false }
+            : { ...a, isFocused: false }
       );
     });
   };
