@@ -5,6 +5,7 @@
   right: 0;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
   z-index: 9999;
   pointer-events: none;
 }
@@ -19,36 +20,21 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
+  width: fit-content;
+  max-width: calc(100vw - 24px);
 }
 
 @media (max-width: 768px) {
+  .dock-container {
+    bottom: max(8px, env(safe-area-inset-bottom));
+    padding: 0 12px;
+  }
+
   .dock {
-    width: min(100%, calc(100vw - 24px));
-    margin: 0 auto;
+    width: fit-content;
+    max-width: 100%;
     padding: 8px;
     gap: 6px;
-    bottom: 8px;
-  }
-
-  .dock-icon {
-    width: 42px;
-    height: 42px;
-  }
-
-  .dock-chat-button {
-    width: auto;
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dock {
-    width: min(100%, calc(100vw - 24px));
-    margin: 0 auto;
-    padding: 8px;
-    gap: 6px;
-    bottom: 8px;
   }
 
   .dock-icon {

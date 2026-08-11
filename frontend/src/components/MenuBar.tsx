@@ -350,9 +350,9 @@ export const MenuBar: React.FC = () => {
       )}
 
       <div className="menubar-right">
-        <div className="menubar-item">
-          {time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}{' '}
-          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        <div className="menubar-item menu-time">
+          <span className="menu-date">{time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}&nbsp;</span>
+          <span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
       </div>
 

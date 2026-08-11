@@ -43,7 +43,7 @@
 
 .bg-portfolio {
   margin-top: 12px;
-  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+  font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
   font-size: 68px;
   font-weight: 700;
   line-height: 1;
@@ -102,7 +102,7 @@
 
   .bg-portfolio {
     margin-top: 8px;
-    font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     font-size: clamp(42px, 14vw, 62px);
   }
 }

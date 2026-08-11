@@ -261,12 +261,25 @@
   }
 
   .menubar-right {
-    display: none;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 4px;
+    background: rgba(0, 0, 0, 0.16);
   }
 
   .menubar-item {
     padding: 0 6px;
     font-size: 10px;
+  }
+
+  .social-link { display: none; }
+
+  .menu-time {
+    padding: 0 4px;
+    font-size: 10px;
+    white-space: nowrap;
   }
 
   .resume-overlay {
@@ -284,6 +297,10 @@
   .menubar-item.bold {
     display: none;
   }
+}
+
+@media (max-width: 390px) {
+  .menu-date { display: none; }
 }
 
 .menubar-item.bold {
