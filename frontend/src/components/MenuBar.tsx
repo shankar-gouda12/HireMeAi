@@ -305,7 +305,6 @@ export const MenuBar: React.FC = () => {
         <div className="menubar-item apple-logo" role="button" tabIndex={0} onClick={() => { setShowAdmin(value => !value); setShowContact(false); setShowResume(false); }} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setShowAdmin(value => !value); setShowContact(false); setShowResume(false); } }}>
           <Apple size={14} fill="currentColor" />
         </div>
-        <div className="menubar-item bold">Shankara Gouda's Portfolio</div>
         <div className="contact-menu">
           <button className="menubar-item menu-button" type="button" onClick={() => { setShowContact(value => !value); setShowResume(false); }}>Contact</button>
           {showContact && (
@@ -376,9 +375,7 @@ export const MenuBar: React.FC = () => {
                 </div>
               )}
               <p className="resume-status">{resumeStatusMessage}</p>
-              <object className="resume-document" data={currentResumePath} type="application/pdf">
-                <p>Preview is unavailable in this browser.</p>
-              </object>
+              <iframe className="resume-document" src={`${currentResumePath}#view=FitH`} title="Resume preview" />
             </div>
             <footer className="resume-preview-footer">
               <a href={currentResumePath} download={resumeName}><Download size={16} /> Download Resume</a>
