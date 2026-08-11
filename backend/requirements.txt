@@ -5,3 +5,4 @@ pypdf
 groq
 python-dotenv
 python-multipart
+supabase

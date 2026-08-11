@@ -6,13 +6,13 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, Form, WebSocket, WebSocketDisconnect, Request
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import groq
 from groq import Groq
 from pydantic import BaseModel, Field
 from pypdf import PdfReader
+from supabase import create_client, Client
 
 
 # Load environment variables
@@ -29,6 +29,16 @@ if not GROQ_API_KEY:
 client = Groq(
     api_key=GROQ_API_KEY
 )
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+    raise RuntimeError(
+        "Supabase is not configured. Set SUPABASE_URL and "
+        "SUPABASE_SERVICE_ROLE_KEY in your Vercel environment variables."
+    )
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 user_model = os.getenv("GROQ_MODEL")
@@ -75,44 +85,10 @@ app.add_middleware(
 
 
 # -----------------------------
-# Simple gallery storage + websocket broadcaster
+# Supabase gallery/project storage + websocket broadcaster
 # -----------------------------
 
 BASE_DIR = Path(__file__).parent
-UPLOADS_DIR = BASE_DIR / "uploads"
-DATA_DIR = BASE_DIR / "data"
-GALLERY_JSON = DATA_DIR / "gallery.json"
-PROJECTS_JSON = DATA_DIR / "projects.json"
-
-UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-
-if not GALLERY_JSON.exists():
-    GALLERY_JSON.write_text("[]")
-if not PROJECTS_JSON.exists():
-    PROJECTS_JSON.write_text("[]")
-
-
-def read_gallery() -> list:
-    try:
-        return json.loads(GALLERY_JSON.read_text())
-    except Exception:
-        return []
-
-
-def write_gallery(items: list):
-    GALLERY_JSON.write_text(json.dumps(items, ensure_ascii=False, indent=2))
-
-
-def read_projects() -> list:
-    try:
-        return json.loads(PROJECTS_JSON.read_text())
-    except Exception:
-        return []
-
-
-def write_projects(items: list):
-    PROJECTS_JSON.write_text(json.dumps(items, ensure_ascii=False, indent=2))
 
 
 class ConnectionManager:
@@ -141,35 +117,32 @@ manager = ConnectionManager()
 PARSED_RESUME_CACHE = None
 
 
-# Serve uploaded files
-app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
-
-
 @app.get("/gallery")
 def get_gallery():
-    return JSONResponse(read_gallery())
+    response = supabase.table("gallery").select("*").order("created_at", desc=True).execute()
+    return JSONResponse(response.data)
 
 
 @app.post("/gallery/upload")
 async def upload_gallery_item(request: Request, file: UploadFile = File(...), title: str = Form(""), description: str = Form("")):
-    # Save file to uploads directory with a safe unique filename
     filename = f"{int(time.time()*1000)}_{uuid.uuid4().hex}_{file.filename}"
     filename = filename.replace(' ', '_')
-    dest = UPLOADS_DIR / filename
     content = await file.read()
-    dest.write_bytes(content)
-
-    url = f"uploads/{filename}"
-
-    items = read_gallery()
     item = {
         "id": int(time.time()*1000),
         "title": title or file.filename,
         "description": description or "",
-        "url": url
+        "url": ""
     }
-    items.insert(0, item)
-    write_gallery(items)
+
+    supabase.storage.from_("gallery").upload(
+        path=filename,
+        file=content,
+        file_options={"content-type": file.content_type or "application/octet-stream", "upsert": "false"},
+    )
+    item["url"] = supabase.storage.from_("gallery").get_public_url(filename)
+    response = supabase.table("gallery").insert(item).execute()
+    item = response.data[0]
 
     # Broadcast update
     try:
@@ -182,16 +155,21 @@ async def upload_gallery_item(request: Request, file: UploadFile = File(...), ti
 
 @app.get("/projects")
 def get_projects():
-    return JSONResponse(read_projects())
+    response = supabase.table("projects").select("*").order("created_at", desc=True).execute()
+    return JSONResponse(response.data)
 
 
 @app.post("/projects")
 def create_project(payload: dict):
-    items = read_projects()
-    item = payload.copy()
-    item["id"] = int(time.time()*1000)
-    items.insert(0, item)
-    write_projects(items)
+    item = {
+        "id": int(time.time()*1000),
+        "name": payload.get("name", ""),
+        "desc": payload.get("desc", ""),
+        "video": payload.get("video", ""),
+        "github": payload.get("github", ""),
+    }
+    response = supabase.table("projects").insert(item).execute()
+    item = response.data[0]
     try:
         import asyncio
         asyncio.create_task(manager.broadcast({"type": "projects-updated", "item": item}))
@@ -202,18 +180,14 @@ def create_project(payload: dict):
 
 @app.put("/projects/{item_id}")
 def update_project(item_id: int, payload: dict):
-    items = read_projects()
-    updated = None
-    next_items = []
-    for it in items:
-        if int(it.get("id", 0)) == int(item_id):
-            new_item = payload.copy()
-            new_item["id"] = item_id
-            next_items.append(new_item)
-            updated = new_item
-        else:
-            next_items.append(it)
-    write_projects(next_items)
+    item = {
+        "name": payload.get("name", ""),
+        "desc": payload.get("desc", ""),
+        "video": payload.get("video", ""),
+        "github": payload.get("github", ""),
+    }
+    response = supabase.table("projects").update(item).eq("id", item_id).execute()
+    updated = response.data[0] if response.data else None
     try:
         import asyncio
         asyncio.create_task(manager.broadcast({"type": "projects-updated", "item": updated}))
@@ -224,9 +198,7 @@ def update_project(item_id: int, payload: dict):
 
 @app.delete("/projects/{item_id}")
 def delete_project(item_id: int):
-    items = read_projects()
-    next_items = [it for it in items if int(it.get("id", 0)) != int(item_id)]
-    write_projects(next_items)
+    supabase.table("projects").delete().eq("id", item_id).execute()
     try:
         import asyncio
         asyncio.create_task(manager.broadcast({"type": "projects-updated"}))
@@ -250,20 +222,13 @@ async def websocket_endpoint(websocket: WebSocket):
 
 @app.delete("/gallery/{item_id}")
 def delete_gallery_item(item_id: int):
-    items = read_gallery()
-    next_items = [it for it in items if int(it.get("id", 0)) != int(item_id)]
-    # attempt to delete removed files
-    removed = [it for it in items if int(it.get("id", 0)) == int(item_id)]
-    for it in removed:
-        url = it.get("url", "")
-        if url.startswith("/uploads/"):
-            path = UPLOADS_DIR / url.split("/uploads/")[-1]
-            try:
-                if path.exists():
-                    path.unlink()
-            except Exception:
-                pass
-    write_gallery(next_items)
+    response = supabase.table("gallery").select("url").eq("id", item_id).execute()
+    if response.data:
+        url = response.data[0]["url"]
+        marker = "/storage/v1/object/public/gallery/"
+        if marker in url:
+            supabase.storage.from_("gallery").remove([url.split(marker, 1)[1]])
+    supabase.table("gallery").delete().eq("id", item_id).execute()
     # Broadcast update (sync is fire-and-forget)
     try:
         import asyncio
